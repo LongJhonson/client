@@ -1,22 +1,32 @@
 import React from 'react';
+import {BrowserRouter as Router, Route, Switch, Links} from "react-router-dom"; 
+import routes from "./config/routes";
 import './App.scss';
+import { OmitProps } from 'antd/lib/transfer/ListBody';
+
 
 function App() {
-	
+
   return (
-    <div className="app">
-		<h1>Sistema de rutas basico</h1>
-    </div>
+   <Router>
+     <Switch>
+       {routes.map((route, index) => (
+         <RouterWithSubRoutes key={index} {...route}/>
+       ))}
+     </Switch>
+   </Router>
   );
 }
 
-function Home(){
-	return <h2>Estamos en el componente Home</h2>;
+function RouterWithSubRoutes(route){
+  // console.log(route);
+  return (
+    <Route
+    path={route.path}
+    exact={route.exact}
+    render={props => <route.component routes={route.routes} {...props}/>}
+  />);
 }
 
 
-function Contact(){
-
-	return <h2>Componente Contact</h2>;
-}
 export default App;
