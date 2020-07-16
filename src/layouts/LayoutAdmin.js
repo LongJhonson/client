@@ -4,23 +4,23 @@ import { Layout } from "antd";
 import MenuTop from "../components/Admin/MenuTop/MenuTop";
 import MenuSider from "../components/Admin/MenuSider/MenuSider";
 import AdminSignIn from "../pages/admin/SignIn";
+import useAuth from "../hooks/useAuth";
 
 import "./layoutscss/LayoutAdmin.scss";
 import routes from "../config/routes";
 
 export default function LayoutAdmin(props) {
-
     const { routes } = props;
     const [menuCollapsed, setMenuCollapsed] = useState(false);
-    const { Header, Content, Footer } = Layout;    
+    const { Header, Content, Footer } = Layout;
 
-    const user = null;
+    const { user, isLoading } = useAuth();
 
     if (!user) {
         return (
             <>
-                 <Route path="/admin/login" component={AdminSignIn} />
-                 <Redirect to="/admin/login" />
+                <Route path="/admin/login" component={AdminSignIn} />
+                <Redirect to="/admin/login" />
             </>
         )
     }
