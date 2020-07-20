@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import MikelLogo from "../../../assets/img/png/logo2.png";
+import { logout } from "../../../api/auth";
 
 import "./MenuTop.scss";
 import { Button } from "antd";
@@ -9,6 +10,11 @@ import { MenuUnfoldOutlined, PoweroffOutlined } from '@ant-design/icons';
 
 export default function MenuTop(props) {
     const { menuCollapsed, setMenuCollapsed } = props;
+
+    const logoutUser = () => {
+        logout();
+        window.location.reload();
+    }
 
     return (
         <div className="menu-top">
@@ -25,7 +31,7 @@ export default function MenuTop(props) {
                 </Button>
             </div>
             <div className="menu-top__right">
-                <Button type="link" onClick={() => console.log("Cerrar sesion")}>
+                <Button type="link" onClick={logoutUser}>
                     <PoweroffOutlined />
                 </Button>
             </div>

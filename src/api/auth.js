@@ -1,4 +1,5 @@
-import { basePath, API_VERSION, BASE_PATH } from "./config";
+// import { API_VERSION, BASE_PATH } from "./config";
+import { API_VERSION, BASE_PATH } from "./config";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../utils/constants";
 import jwtDecode from "jwt-decode";
 
