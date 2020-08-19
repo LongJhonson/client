@@ -44,15 +44,59 @@ export function signInApi(data) {
     }
 
     return fetch(url, params)
-    .then(response =>{
+        .then(response => {
+            return response.json();
+        }).then(result => {
+            console.log(result);
+            return result;
+        })
+        .catch(err => {
+            console.log(err);
+            return err.message;
+        })
+
+}
+
+export function getUsersApi(token) {
+
+    const url = `${BASE_PATH}/${API_VERSION}/users`;
+
+    const params = {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": token
+        }
+    };
+
+    return fetch(url, params).then(response => {
         return response.json();
-    }).then(result =>{
-        console.log(result);        
+    }).then(result => {
         return result;
+    }).catch(error =>{
+        return error.message;
     })
-    .catch(err =>{
-        console.log(err);
-        return err.message;
+
+}
+
+export function getUsersActiveApi(token, status) {
+
+    const url = `${BASE_PATH}/${API_VERSION}/users-active?active=${status}`;
+
+    const params = {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": token
+        }
+    };
+
+    return fetch(url, params).then(response => {
+        return response.json();
+    }).then(result => {
+        return result;
+    }).catch(error =>{
+        return error.message;
     })
 
 }
