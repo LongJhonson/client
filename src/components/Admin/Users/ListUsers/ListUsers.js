@@ -6,14 +6,18 @@ import {
     Avatar,
     Button
 } from 'antd';
-
 import NoAvatar from '../../../../assets/img/png/no-avatar.png';
+import Modal from '../../../Modal';
+import EditUserForm from '../EditUserForm';
 
 import './ListUsers.scss';
 
 export default function ListUsers(props) {
     const { usersActive, usersInactive } = props;
-    const [viewUsersActives, setViewUsersActives] = useState(true)
+    const [viewUsersActives, setViewUsersActives] = useState(true);
+    const [isVisibleModal, setIsVisibleModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalContent, setModalContent] = useState(null);
 
     return (
         <div className="list-users">
@@ -26,13 +30,42 @@ export default function ListUsers(props) {
                     {viewUsersActives ? "Usuarios Activos" : "Usuarios Inactivos"}
                 </span>
             </div>
-            {viewUsersActives ? <UsersActive usersActive={usersActive} /> : <UsersInactive usersInactive={usersInactive} />}
+            {viewUsersActives ?
+                <UsersActive
+                    usersActive={usersActive}
+                    setIsVisibleModal={setIsVisibleModal}
+                    setModalTitle={setModalTitle}
+                    setModalContent={setModalContent}
+                />
+                :
+                <UsersInactive usersInactive={usersInactive} />}
+
+            <Modal
+                title={modalTitle}
+                isVisible={isVisibleModal}
+                setIsVisible={setIsVisibleModal}
+            >
+                {modalContent}
+            </Modal>
         </div>
     );
 }
 
 function UsersActive(props) {
-    const { usersActive } = props;
+    const {
+        usersActive,
+        setIsVisibleModal,
+        setModalTitle,
+        setModalContent
+    } = props;
+    const editUser = user => {
+        setIsVisibleModal(true);
+        setModalTitle(`Editar ${user.name ? user.name : "..."}  ${user.lastname ? user.lastname : "..."}`);
+        setModalContent(
+            <EditUserForm user={user} />
+        );
+    }
+
     return (
         <List
             className="users-active"
@@ -43,7 +76,7 @@ function UsersActive(props) {
                     actions={[
                         <Button
                             type="primary"
-                            onClick={() => { console.log("Editar usuario") }}
+                            onClick={() => { editUser(user) }}
                         >
                             <EditOutlined />
                         </Button>,
@@ -94,7 +127,7 @@ function UsersInactive(props) {
                             onClick={() => { console.log("Activar usuario") }}
                         >
                             <CheckCircleOutlined />
-                        </Button>,                       
+                        </Button>,
 
                         <Button
                             type="danger"
