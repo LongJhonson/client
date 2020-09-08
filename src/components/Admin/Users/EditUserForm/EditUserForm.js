@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
     Avatar,
     Form,
@@ -8,7 +8,7 @@ import {
     Row,
     Col
 } from 'antd';
-import { UserOutlined, MailOutlined } from '@ant-design/icons';
+import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import { useDropzone } from 'react-dropzone';
 import NoAvatar from '../../../../assets/img/png/no-avatar.png';
 
@@ -20,23 +20,24 @@ export default function EditUserForm(props) {
 
     const { user } = props;
 
-    console.log(user.email);
 
     const [avatar, setAvatar] = useState(null);
     const [userData, setUserData] = useState({
         name: user.name,
         lastname: user.lastname,
         email: user.email,
-        rol: user.rol,
+        role: user.role,
         avatar: user.avatar
     });
+    useEffect(() => {
+        if (avatar) {
+            setUserData({ ...userData, avatar });
+        }
+    }, [avatar]);
 
     const updateUser = e => {
         e.preventDefault();
-        console.log(userData);
     }
-
-    console.log(avatar);
 
     return (
         <div
@@ -98,7 +99,7 @@ function UploadAvatar(props) {
 
 function EditForm(props) {
     const { userData, setUserData, updateUser } = props;
-    const { option } = Select;
+    const { Option } = Select;
     return (
         <Form
             className="form-edit"
@@ -132,25 +133,51 @@ function EditForm(props) {
                 gutter={24}
             >
                 <Col span={12}>
-                    <Input
-                        prefix={<MailOutlined />}
-                        placeholder="Email"
-                        defaultValue={userData.email}
-                        onChange={e => setUserData({ ...userData, email: e.target.value })}
-                    />
+                    <Form.Item>
+                        <Input
+                            prefix={<MailOutlined />}
+                            placeholder="Email"
+                            defaultValue={userData.email}
+                            onChange={e => setUserData({ ...userData, email: e.target.value })}
+                        />
+                    </Form.Item>
                 </Col>
                 <Col span={12}>
-
+                    <Form.Item>
+                        <Select
+                            placeholder="Seleccione un rol"
+                            onChange={e => setUserData({ ...userData, role: e })}
+                            defaultValue={userData.role}
+                        >
+                            <Option value="admin">Administrador</Option>
+                            <Option value="editor">Editor</Option>
+                            <Option value="reviewer">Revisor</Option>
+                        </Select>
+                    </Form.Item>
                 </Col>
             </Row>
             <Row
                 gutter={24}
             >
                 <Col span={12}>
-
+                    <Form.Item>
+                        <Input
+                            prefix={<LockOutlined />}
+                            type="password"
+                            placeholder="Contraseña"
+                            onChange={e => setUserData({ ...userData, password: e.target.value })}
+                        />
+                    </Form.Item>
                 </Col>
                 <Col span={12}>
-
+                    <Form.Item>
+                        <Input
+                            prefix={<LockOutlined />}
+                            type="password"
+                            placeholder="Repetir contraseña"
+                            onChange={e => setUserData({ ...userData, repeatPassword: e.target.value })}
+                        />
+                    </Form.Item>
                 </Col>
             </Row>
             <Form.Item>
