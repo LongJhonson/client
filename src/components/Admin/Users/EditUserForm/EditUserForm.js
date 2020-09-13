@@ -60,11 +60,13 @@ export default function EditUserForm(props) {
                 notification["error"]({
                     message: "Las contraseñas tienen que ser iguales"
                 });
+                return;
             } else {
-
+                delete userUpdate.repeatPassword;
+                console.log(userUpdate);
             }
-            return;
         }
+
         if (!userUpdate.name || !userUpdate.lastname || !userUpdate.email) {
             notification["error"]({
                 message: "El nombre, apellidos y email son obligatorios"
