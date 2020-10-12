@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Router, Switch } from "react-router-dom";
 import { Layout, Row, Col } from "antd";
+import MenuTop from '../components/Web/MenuTop';
 
 import "./layoutscss/LayoutBasic.scss";
 import routes from "../config/routes";
@@ -8,31 +9,21 @@ import routes from "../config/routes";
 export default function LayoutBasic(props) {
 
     const { routes } = props;
-    const { Header, Content, Footer } = Layout;
+    const { Footer } = Layout;
 
     return (
-        <Row>
-            <Col md={4} />
-            <Col md={16} >
-                <p>Menu Top</p>
-                <LoadRoutes routes={routes} />
-                <Footer>Mikel Alonso</Footer>
-            </Col>
-            <Col md={4} />
-        </Row>
+        <>
+            <Row>
+                <Col md={4} />
+                <Col md={16} >
+                    <MenuTop />
+                </Col>
+                <Col md={4} />
+            </Row>
+            <LoadRoutes routes={routes} />
+            <Footer>Mikel Alonso</Footer>
+        </>
     )
-
-    // return (
-    //     <Layout>
-    //         <h2>Menu sider Basic User</h2>
-    //         <Layout>
-    //             <Content>
-    //                 <LoadRoutes routes={routes} />
-    //             </Content>
-    //             <Footer>Mikel Alonso</Footer>
-    //         </Layout>
-    //     </Layout >
-    // )
 }
 
 function LoadRoutes({ routes }) {
